@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { authFetcher } from '../../Api/fetcher'
 import { handleDisabled } from '../../Helper/validationHelper'
+import { ActionButton, CloseButton } from '../Common/ActionButton'
 
 const SignUpContainer = styled.div`
   display: flex;
+  background: #f6f6f6;
   width: 100%;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -16,6 +19,11 @@ const InputWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+`
+
+const ButtonWrap = styled.div`
+  display: flex;
+  gap: 10px;
 `
 
 function SignUp() {
@@ -42,10 +50,13 @@ function SignUp() {
       console.log(error)
     }
   }
+  const handleLogin = () => {
+    navigate('/' + location.search)
+  }
 
   return (
     <SignUpContainer>
-      회원가입
+      <h1>회원가입</h1>
       <form
         onSubmit={(e) => {
           handleSignUp(e)
@@ -70,9 +81,23 @@ function SignUp() {
             }}
           />
         </InputWrap>
-        <button type="submit" disabled={handleDisabled(email, password)}>
-          회원가입하기
-        </button>
+        <br />
+        <ButtonWrap>
+          <ActionButton
+            type="submit"
+            disabled={handleDisabled(email, password)}
+          >
+            회원가입하기
+          </ActionButton>
+          <CloseButton
+            type="submit"
+            onClick={() => {
+              handleLogin()
+            }}
+          >
+            뒤로가기
+          </CloseButton>
+        </ButtonWrap>
       </form>
     </SignUpContainer>
   )

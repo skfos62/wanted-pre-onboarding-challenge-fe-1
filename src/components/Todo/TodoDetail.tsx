@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { todosFetcher } from '../../Api/fetcher'
+import { ActionButton, CloseButton } from '../Common/ActionButton'
 import { InputWrap, TodoListProps } from './TodoList'
 
 const TodoContainer = styled.div`
@@ -119,42 +120,42 @@ function TodoDetail({ item, onGetTodoList, onCloseDetail }: TodoDetailProps) {
           </div>
         )}
         <ButtonWrap>
-          <button
+          <ActionButton
             type="submit"
             onClick={() => {
               updateTodoList()
             }}
           >
             수정
-          </button>
+          </ActionButton>
           {openUpdate && (
-            <button
+            <ActionButton
               type="submit"
               onClick={() => {
                 setOpenUpdate(false)
               }}
             >
               뒤로
-            </button>
+            </ActionButton>
           )}
 
-          <button
+          <ActionButton
             type="submit"
             onClick={() => {
               deleteTodoList()
             }}
           >
             삭제
-          </button>
+          </ActionButton>
         </ButtonWrap>
-        <button
+        <CloseButton
           type="submit"
           onClick={() => {
             onCloseDetail()
           }}
         >
           닫기
-        </button>
+        </CloseButton>
       </TodoDetailContainer>
     </TodoContainer>
   )

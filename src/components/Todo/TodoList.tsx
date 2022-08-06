@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthType, todosFetcher } from '../../Api/fetcher'
+import { ActionButton, CloseButton } from '../Common/ActionButton'
 import TodoDetail from './TodoDetail'
 
 const TodoContainer = styled.div`
@@ -18,13 +19,13 @@ const TodoContainer = styled.div`
 const TodoListContainer = styled.div`
   display: flex;
   width: 300px;
-  height: 150px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 15px;
   background: #fff;
   border-radius: 20px;
+  padding: 30px 0;
 `
 export const InputWrap = styled.div`
   display: flex;
@@ -32,6 +33,16 @@ export const InputWrap = styled.div`
   justify-content: center;
 `
 
+const ButtonWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`
+
+const SectionTitle = styled.h3`
+  padding: 0;
+  margin: 0;
+`
 export interface TodoListProps {
   title: string
   content: string
@@ -105,7 +116,8 @@ function TodoList() {
     <TodoContainer>
       <h1>목록</h1>
       {openCreateTodo && (
-        <div>
+        <TodoListContainer>
+          <SectionTitle>목록 추가</SectionTitle>
           <InputWrap>
             <p>제목 </p>
             <input
@@ -125,32 +137,37 @@ function TodoList() {
               }}
             />
           </InputWrap>
-          <button
-            type="submit"
-            onClick={() => {
-              setOpenCreateTodo(false)
-            }}
-          >
-            닫기
-          </button>
-          <button
-            type="submit"
-            onClick={() => {
-              createToDoList()
-            }}
-          >
-            등록
-          </button>
-        </div>
+          <ButtonWrap>
+            <CloseButton
+              type="submit"
+              onClick={() => {
+                setOpenCreateTodo(false)
+              }}
+            >
+              닫기
+            </CloseButton>
+            <ActionButton
+              type="submit"
+              onClick={() => {
+                createToDoList()
+              }}
+            >
+              등록
+            </ActionButton>
+          </ButtonWrap>
+        </TodoListContainer>
       )}
-      <button
-        type="submit"
-        onClick={() => {
-          setOpenCreateTodo(true)
-        }}
-      >
-        목록 추가하기
-      </button>
+      {!openCreateTodo && (
+        <ActionButton
+          type="submit"
+          onClick={() => {
+            setOpenCreateTodo(true)
+          }}
+        >
+          목록 추가하기
+        </ActionButton>
+      )}
+
       {items.length > 0 &&
         items.map((item) => (
           <>
@@ -178,14 +195,14 @@ function TodoList() {
           </>
         ))}
       {items.length === 0 && <div>목록이 없습니다</div>}
-      <button
+      <CloseButton
         type="submit"
         onClick={() => {
           logout()
         }}
       >
         로그아웃
-      </button>
+      </CloseButton>
     </TodoContainer>
   )
 }

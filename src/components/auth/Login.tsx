@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { authFetcher, AuthType } from '../../Api/fetcher'
 import { handleDisabled } from '../../Helper/validationHelper'
+import { ActionButton } from '../Common/ActionButton'
 
 const LoginContainer = styled.div`
   display: flex;
@@ -16,6 +17,7 @@ const InputWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 10px;
 `
 
 function Login() {
@@ -44,7 +46,7 @@ function Login() {
 
   return (
     <LoginContainer>
-      <p>Login </p>
+      <h1>Login </h1>
       <InputWrap>
         <p>id </p>
         <input
@@ -63,13 +65,13 @@ function Login() {
           }}
         />
       </InputWrap>
-      <button
+      <ActionButton
         type="submit"
         onClick={handleLogin}
         disabled={handleDisabled(email, password)}
       >
         로그인 하기
-      </button>
+      </ActionButton>
     </LoginContainer>
   )
 }

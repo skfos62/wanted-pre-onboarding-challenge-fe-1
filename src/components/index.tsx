@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Login from './auth/Login'
+import { CloseButton } from './Common/ActionButton'
 
 const IndexContainer = styled.div`
   background: #f6f6f6;
@@ -17,9 +18,6 @@ const SignUpButtonWrap = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 10px 0;
-`
-const SignUpButton = styled.button`
-  width: 100px;
 `
 
 function Index() {
@@ -39,14 +37,14 @@ function Index() {
     <IndexContainer>
       <Login />
       <SignUpButtonWrap>
-        <SignUpButton
+        <CloseButton
           type="button"
           onClick={() => {
             handleSignUp()
           }}
         >
           회원가입하기
-        </SignUpButton>
+        </CloseButton>
       </SignUpButtonWrap>
     </IndexContainer>
   )
