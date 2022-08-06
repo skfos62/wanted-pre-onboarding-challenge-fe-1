@@ -1,11 +1,73 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
+import { authFetcher } from '../../Api/fetcher'
+import { handleDisabled } from '../../Helper/validationHelper'
 
+const LoginContainer = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+`
+const InputWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
 function Login() {
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const handleLogin = async () => {
+    try {
+      const result = await authFetcher({
+        method: 'post',
+        url: 'users/login',
+        requset: {
+          email,
+          password
+        }
+      })
+      if (result) {
+        navigate('/auth' + location.search)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <>
-      <div>로그인 페이지 </div>
-    </>
+    <LoginContainer>
+      <p>Login </p>
+      <InputWrap>
+        <p>id </p>
+        <input
+          type="text"
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
+        />
+      </InputWrap>
+      <InputWrap>
+        <p>password </p>
+        <input
+          type="text"
+          onChange={(e) => {
+            setPassword(e.target.value)
+          }}
+        />
+      </InputWrap>
+      <button
+        type="submit"
+        onClick={handleLogin}
+        disabled={handleDisabled(email, password)}
+      >
+        로그인 하기
+      </button>
+    </LoginContainer>
   )
 }
 
