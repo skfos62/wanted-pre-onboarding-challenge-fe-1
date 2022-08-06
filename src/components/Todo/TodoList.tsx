@@ -1,17 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { AuthType, todosFetcher } from '../../Api/fetcher'
+import TodoDetail from './TodoDetail'
 
 const TodoContainer = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 15px;
+  background: #f6f6f6;
+  padding: 40px;
+`
+const TodoListContainer = styled.div`
+  display: flex;
+  width: 300px;
+  height: 150px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: #fff;
+  border-radius: 20px;
+`
+export const InputWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
-interface TodoListProps {
+export interface TodoListProps {
   title: string
   content: string
   id: string
@@ -25,8 +45,16 @@ interface TodoListResponse {
 
 function TodoList() {
   const [items, setItems] = useState<TodoListProps[]>([])
+  const [listItem, setListItem] = useState<TodoListProps>()
+
+  const [openCreateTodo, setOpenCreateTodo] = useState(false)
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+
+  const token = localStorage.getItem('token')
+  const handleCloseDetail = () => setListItem(undefined)
+
   const getTodoList = async () => {
-    const token = localStorage.getItem('token')
     if (token)
       try {
         const result = await todosFetcher({
@@ -44,7 +72,6 @@ function TodoList() {
       }
   }
   const createToDoList = async () => {
-    const token = localStorage.getItem('token')
     if (token)
       try {
         const result = await todosFetcher({
@@ -52,12 +79,13 @@ function TodoList() {
           url: 'todos',
           authorization: token,
           requset: {
-            title: '테스트 1',
-            content: '테스트 1'
+            title,
+            content
           }
         })
         if (result) {
           getTodoList()
+          setOpenCreateTodo(false)
         }
       } catch (error) {
         console.log(error)
@@ -68,18 +96,82 @@ function TodoList() {
   }, [])
   return (
     <TodoContainer>
-      <div>목록</div>
-      {items.length > 0 &&
-        items.map((item) => <h3 key={item.id}>{item.title}</h3>)}
-      {items.length === 0 && <div>목록이 없습니다</div>}
+      <h1>목록</h1>
+      {openCreateTodo && (
+        <div>
+          <InputWrap>
+            <p>제목 </p>
+            <input
+              type="text"
+              onChange={(e) => {
+                setTitle(e.target.value)
+              }}
+            />
+          </InputWrap>
+          <InputWrap>
+            <p>내용 </p>
+            <input
+              type="text"
+              required
+              onChange={(e) => {
+                setContent(e.target.value)
+              }}
+            />
+          </InputWrap>
+          <button
+            type="submit"
+            onClick={() => {
+              setOpenCreateTodo(false)
+            }}
+          >
+            닫기
+          </button>
+          <button
+            type="submit"
+            onClick={() => {
+              createToDoList()
+            }}
+          >
+            등록
+          </button>
+        </div>
+      )}
       <button
         type="submit"
         onClick={() => {
-          createToDoList()
+          setOpenCreateTodo(true)
         }}
       >
         목록 추가하기
       </button>
+      {items.length > 0 &&
+        items.map((item) => (
+          <>
+            <TodoListContainer
+              key={item.id}
+              tabIndex={0}
+              onClick={() => {
+                setListItem(item)
+              }}
+              onKeyDown={() => {
+                setListItem(item)
+              }}
+              role="button"
+            >
+              <div>{item.title}</div>
+              <div>{item.content}</div>
+            </TodoListContainer>
+            {listItem && listItem.id === item.id && (
+              <TodoDetail
+                item={listItem}
+                onGetTodoList={getTodoList}
+                onCloseDetail={handleCloseDetail}
+              />
+            )}
+          </>
+        ))}
+
+      {items.length === 0 && <div>목록이 없습니다</div>}
     </TodoContainer>
   )
 }

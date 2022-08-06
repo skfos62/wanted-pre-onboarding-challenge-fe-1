@@ -17,8 +17,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="auth" element={<Login />} />
         <Route path="auth/signup" element={<SignUp />} />
-        <Route path="todo/list" element={<TodoList />} />
-        <Route path="todo/detail" element={<TodoDetail />} />
+        <Route path="todo" element={<TodoList />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
