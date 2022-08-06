@@ -34,7 +34,7 @@ function Login() {
       })
       if (result) {
         const data = result as AuthType
-        navigate('/todo/list' + location.search)
+        navigate('/todo' + location.search)
         localStorage.setItem('token', data.token)
       }
     } catch (error) {
