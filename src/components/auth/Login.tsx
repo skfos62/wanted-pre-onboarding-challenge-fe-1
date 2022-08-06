@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { authFetcher } from '../../Api/fetcher'
+import { authFetcher, AuthType } from '../../Api/fetcher'
 import { handleDisabled } from '../../Helper/validationHelper'
 
 const LoginContainer = styled.div`
@@ -17,6 +17,7 @@ const InputWrap = styled.div`
   flex-direction: column;
   justify-content: center;
 `
+
 function Login() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
@@ -32,7 +33,9 @@ function Login() {
         }
       })
       if (result) {
-        navigate('/auth' + location.search)
+        const data = result as AuthType
+        navigate('/todo/list' + location.search)
+        localStorage.setItem('token', data.token)
       }
     } catch (error) {
       console.log(error)

@@ -5,6 +5,11 @@ interface FetcherTypes {
   authorization?: string
 }
 
+export interface AuthType {
+  message: string
+  token: string
+}
+
 export const authFetcher = async (data: FetcherTypes) => {
   if (data.method !== 'get') {
     return await fetch(`http://localhost:8080/${data.url}`, {
@@ -45,13 +50,13 @@ export const authFetcher = async (data: FetcherTypes) => {
 
 export const todosFetcher = async (data: FetcherTypes) => {
   if (data.method !== 'get') {
-    const result = await fetch(`http://localhost:8080/${data.url}`, {
+    return await fetch(`http://localhost:8080/${data.url}`, {
       method: data.method,
       headers: new Headers({
         Authorization: `${data.authorization}`,
         'Content-Type': 'application/json'
       }),
-      body: JSON.stringify(data)
+      body: JSON.stringify(data.requset)
     })
       .then(async (response) => {
         const isJson = response.headers
@@ -64,7 +69,7 @@ export const todosFetcher = async (data: FetcherTypes) => {
       .catch((error) => console.log(error))
   }
   if (data.method === 'get') {
-    const result = await fetch(`http://localhost:8080/${data.url}`, {
+    return await fetch(`http://localhost:8080/${data.url}`, {
       method: data.method,
       headers: new Headers({
         Authorization: `${data.authorization}`,

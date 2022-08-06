@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './components/auth/Login'
 import SignUp from './components/auth/SignUp'
-import Todo from './components/Todo'
+import TodoList from './components/Todo/TodoList'
+import TodoDetail from './components/Todo/TodoDetail'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
@@ -16,7 +17,8 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="auth" element={<Login />} />
         <Route path="auth/signup" element={<SignUp />} />
-        <Route path="todo" element={<Todo />} />
+        <Route path="todo/list" element={<TodoList />} />
+        <Route path="todo/detail" element={<TodoDetail />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
