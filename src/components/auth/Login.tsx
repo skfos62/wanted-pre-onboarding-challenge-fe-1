@@ -1,13 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Index from './components'
 
-function App() {
+function Login() {
   return (
     <>
-      <Index />
+      <div>로그인 페이지 </div>
     </>
   )
 }
 
-export default App
+export default Login
