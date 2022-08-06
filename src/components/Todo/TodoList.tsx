@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthType, todosFetcher } from '../../Api/fetcher'
 import TodoDetail from './TodoDetail'
@@ -44,6 +45,7 @@ interface TodoListResponse {
 }
 
 function TodoList() {
+  const navigate = useNavigate()
   const [items, setItems] = useState<TodoListProps[]>([])
   const [listItem, setListItem] = useState<TodoListProps>()
 
@@ -91,6 +93,11 @@ function TodoList() {
         console.log(error)
       }
   }
+  const logout = () => {
+    localStorage.setItem('token', '')
+    navigate('/' + location.search)
+  }
+
   useEffect(() => {
     getTodoList()
   }, [])
@@ -170,8 +177,15 @@ function TodoList() {
             )}
           </>
         ))}
-
       {items.length === 0 && <div>목록이 없습니다</div>}
+      <button
+        type="submit"
+        onClick={() => {
+          logout()
+        }}
+      >
+        로그아웃
+      </button>
     </TodoContainer>
   )
 }

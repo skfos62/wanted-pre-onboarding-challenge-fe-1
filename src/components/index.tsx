@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Login from './auth/Login'
@@ -27,6 +27,14 @@ function Index() {
   const handleSignUp = () => {
     navigate('/auth/signup' + location.search)
   }
+  const token = localStorage.getItem('token')
+  const handleAutoLogin = () => {
+    if (token) navigate('/todo' + location.search)
+  }
+  useEffect(() => {
+    handleAutoLogin()
+  }, [])
+
   return (
     <IndexContainer>
       <Login />

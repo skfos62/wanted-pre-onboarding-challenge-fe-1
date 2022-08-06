@@ -11,6 +11,22 @@ const TodoContainer = styled.div`
   justify-content: center;
   gap: 15px;
 `
+const TodoDetailContainer = styled.div`
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px 0;
+`
+
+const ButtonWrap = styled.div`
+  display: flex;
+  gap: 10px;
+`
 
 interface TodoDetailProps {
   item: TodoListProps
@@ -71,61 +87,75 @@ function TodoDetail({ item, onGetTodoList, onCloseDetail }: TodoDetailProps) {
 
   return (
     <TodoContainer>
-      <div>--- 상세 보기---</div>
-      {!openUpdate && (
-        <div>
-          <div>{item.title}</div>
-          <div>{item.content}</div>
-        </div>
-      )}
-      {openUpdate && (
-        <div>
-          <InputWrap>
-            <input
-              type="text"
-              defaultValue={items.title}
-              onChange={(e) => {
-                setTitle(e.target.value)
+      <TodoDetailContainer>
+        <h3>상세 보기</h3>
+        {!openUpdate && (
+          <div>
+            <div>{item.title}</div>
+            <div>{item.content}</div>
+          </div>
+        )}
+        {openUpdate && (
+          <div>
+            <InputWrap>
+              <input
+                type="text"
+                defaultValue={items.title}
+                onChange={(e) => {
+                  setTitle(e.target.value)
+                }}
+              />
+            </InputWrap>
+            <br />
+            <InputWrap>
+              <input
+                type="text"
+                defaultValue={items.content}
+                onChange={(e) => {
+                  setContent(e.target.value)
+                }}
+              />
+            </InputWrap>
+          </div>
+        )}
+        <ButtonWrap>
+          <button
+            type="submit"
+            onClick={() => {
+              updateTodoList()
+            }}
+          >
+            수정
+          </button>
+          {openUpdate && (
+            <button
+              type="submit"
+              onClick={() => {
+                setOpenUpdate(false)
               }}
-            />
-          </InputWrap>
-          <br />
-          <InputWrap>
-            <input
-              type="text"
-              defaultValue={items.content}
-              onChange={(e) => {
-                setContent(e.target.value)
-              }}
-            />
-          </InputWrap>
-        </div>
-      )}
+            >
+              뒤로
+            </button>
+          )}
 
-      <button
-        type="submit"
-        onClick={() => {
-          updateTodoList()
-        }}
-      >
-        수정
-      </button>
-      <button
-        type="submit"
-        onClick={() => {
-          setOpenUpdate(false)
-        }}
-      >
-        뒤로
-      </button>
-      <button
-        type="submit"
-        onClick={() => {
-          deleteTodoList()
-        }}
-      >
-        삭제
-      </button>
+          <button
+            type="submit"
+            onClick={() => {
+              deleteTodoList()
+            }}
+          >
+            삭제
+          </button>
+        </ButtonWrap>
+        <button
+          type="submit"
+          onClick={() => {
+            onCloseDetail()
+          }}
+        >
+          닫기
+        </button>
+      </TodoDetailContainer>
     </TodoContainer>
   )
 }
