@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import Login from './auth/Login'
-import { CloseButton } from './Common/ActionButton'
+import Login from '../components/auth/Login'
+import { CloseButton } from '../components/Common/ActionButton'
 
 const IndexContainer = styled.div`
   background: #f6f6f6;
